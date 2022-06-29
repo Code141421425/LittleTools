@@ -1,0 +1,20 @@
+<Controller>
+    BoxLayout:  
+        orientation:'vertical'  
+        padding:5
+        Label:
+            text:"Ready for start"
+            id:count_Label
+            font_size:16
+            
+        BoxLayout:
+            orientation:'horizontal'
+
+            Button:
+                text:"Count"
+                size_hint_x:.8
+                on_release:root.AddOne()
+            Button:
+                text:"Clear"
+                size_hint_x:.2
+                on_release:root.Clear()
