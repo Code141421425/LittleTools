@@ -1,7 +1,7 @@
-from GetFileSize import GetFileSize
+from GetFileData import GetFileData
 
 
 
 if __name__ == "__main__":
-    TargetPathRoot = "C:\TempDL\AVG\\"
-    GetFileSize(TargetPathRoot).getSizeByTxt()
+    TargetPathRoot = "C:\TempDL\ZIZ（对魔忍）\\"
+    GetFileData(TargetPathRoot,1).getResultInTxt()
