@@ -18,6 +18,7 @@ class ReFileName:
 
     def ReNameFile(self):
         files = self.__ReadFile()
+        files.sort(key=self.test,reverse=False)
         print(files)
 
         for i in range(len(files)):
@@ -28,6 +29,8 @@ class ReFileName:
                 nemName = os.path.join(self.filePath, self.prefix+"-" + i.__str__() + self.suffix)
             os.rename(oldName,nemName)
 
+    def test(self, e):
+        return os.path.getctime(self.filePath+e)
 
     def Run(self):
         self.ReNameFile()
@@ -39,7 +42,7 @@ if __name__ == '__main__':
     # Config.set('graphics', 'width', '350')
     # Config.set('graphics', 'height', '200')
 
-    ReFileName(filePath=r"C:\Users\Shang\Desktop\test", prefix="115").Run()
+    ReFileName(filePath=r"C:\Users\Shang\Desktop\test\\", prefix="151").Run()
 
 
 
