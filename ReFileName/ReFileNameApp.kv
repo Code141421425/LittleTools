@@ -1,0 +1,59 @@
+<Controller>
+    BoxLayout:
+        orientation:'horizontal' 
+        padding:8
+
+        BoxLayout:
+            size_hint_x:.6
+            padding:5         
+            orientation:'vertical' 
+            Label:
+                text:"Rename file Path :"
+                text_size:self.size
+                halign: 'left'
+                
+            TextInput:
+                text:root.renameFilePath
+                height:80
+                id:reFileNamePath_input            
+
+            Label:
+                text:"Prefix :"
+                text_size:self.size
+                halign: 'left'
+
+            TextInput:
+                text:root.prefix
+                id:prefix_input
+
+                
+            Label:
+                text:"Suffix :"
+                text_size:self.size
+                halign: 'left'
+
+            TextInput:
+                text:root.suffix
+                id:suffix_input
+
+        BoxLayout:
+            size_hint_x:.4
+            padding:3
+            orientation:'horizontal' 
+
+            BoxLayout:
+                orientation:'vertical' 
+                Button:                
+                    text:"ShowPrefix\nOnCmd"
+                    halign:"center"
+                    font_size:13
+                    on_release:root.ShowPrefixOnCmd()
+
+                Button:
+                    text:"SaveData"
+                    on_release:root.WriteDataToINI()
+            
+            Button:                
+                text:"ReName"
+                on_release:root.RunReName()
+            

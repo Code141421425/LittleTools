@@ -1,5 +1,4 @@
 import os
-# import kivy.config as Config
 
 
 class ReFileName:
@@ -8,17 +7,17 @@ class ReFileName:
     prefix = ""
     suffix = ""
 
-    def __init__(self, filePath, prefix=""):
+    def __init__(self, filePath, prefix="", suffix=".jpg"):
         self.filePath = filePath
         self.prefix = prefix
-        self.suffix = ".jpg"
+        self.suffix = suffix
 
     def __ReadFile(self):
         return os.listdir(self.filePath)
 
     def ReNameFile(self):
         files = self.__ReadFile()
-        files.sort(key=self.test,reverse=False)
+        files.sort(key=self.test, reverse=False)
         print(files)
 
         for i in range(len(files)):
@@ -32,6 +31,15 @@ class ReFileName:
     def test(self, e):
         return os.path.getctime(self.filePath+e)
 
+    def SetReNameFilePath(self, filePath):
+        self.filePath = filePath
+
+    def SetPrefix(self, prefix):
+        self.prefix = prefix
+
+    def SetSuffix(self, suffix):
+        self.suffix = suffix
+
     def Run(self):
         self.ReNameFile()
         pass
@@ -39,10 +47,10 @@ class ReFileName:
 
 
 if __name__ == '__main__':
-    # Config.set('graphics', 'width', '350')
+    # Config.set('graphics', 'width', '400')
     # Config.set('graphics', 'height', '200')
 
-    ReFileName(filePath=r"C:\Users\Shang\Desktop\test\\", prefix="151").Run()
+    ReFileName(filePath=r"C:\Users\Shang\Desktop\test\\", prefix="2_三大主流编程语言").Run()
 
 
 
