@@ -1,0 +1,116 @@
+<BackgroundColor@Widget>
+    background_color: 1, 1, 0, 0.5
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<BackgroundLabel@Label+BackgroundColor>
+    background_color: 0.3, 0.6, 0.6, 1
+
+<UIController>
+    BoxLayout:
+        orientation:'vertical'
+        padding:8
+
+        PointUnit
+            id:user1
+        PointUnit
+            id:user2
+
+<PointUnit>
+
+    __safe_id: [dropdown.__self__]
+
+    BoxLayout:
+        orientation:'horizontal'
+        BackgroundLabel:
+            text:root.userName
+            id:userName
+            background_color:root.backColor
+            size_hint_x:.2
+
+        Label:
+            # Point Label
+            text:root.point
+            id:point
+            size_hint_x:.3
+
+
+        BoxLayout:
+            # Part：Rule 
+            # Right Section
+            orientation:'vertical'
+            size_hint_x:.5
+
+            BoxLayout:
+                orientation:'vertical'
+                size_hint_y:.5
+
+                Label:
+                    text:"Rule"
+                    text_size:self.size
+                    halign: 'left'
+                    
+                Button:
+                    id:dropdown_mainBtn
+                    text:root.selectedRule
+                    height:26
+                    size_hint_y:None                    
+                    on_press:root.refresh_DropDownList()
+                    on_release:dropdown.open(self)
+                    
+                Widget:
+                    on_parent:dropdown.dismiss()
+
+                DropDown:
+                    id:dropdown
+                    on_select:root.handle_DropDownSelect()
+        
+            BoxLayout:
+                orientation:'horizontal'
+                size_hint_y:.5
+
+                BoxLayout:
+                    # Part:Factor 
+                    orientation:'vertical'
+                    size_hint_x:.2
+                    padding:3
+
+                    Label:
+                        text:"Factor"
+                        text_size:self.size
+                        halign: 'left'
+                    
+                    TextInput:
+                        text:root.factor
+                        id:factor_input
+                        multiline:False
+                        height:32
+
+                BoxLayout:
+                    # Part:WorkMinute 
+                    orientation:'vertical'
+                    size_hint_x:.2
+                    padding:3
+
+                    Label:
+                        text:"WorkMinute"
+                        text_size:self.size
+                        halign: 'left'
+                    
+                    TextInput:
+                        text:root.workMinute
+                        id:mintue_input
+                        multiline:False
+                        height:32
+            
+        Button:
+            size_hint_x:.2
+            size_hint_y:.5
+            text:"Add Pt" 
+            valign:"middle" 
+            size:self.size
+            on_release:app.RawDataToCalculate(root)              
