@@ -1,3 +1,5 @@
+#:include LogUI.kv
+
 <BackgroundColor@Widget>
     background_color: 1, 1, 0, 0.5
     canvas.before:
@@ -17,8 +19,16 @@
 
         PointUnit
             id:user1
-        PointUnit
+            size_hint_y:.4
+        PointUnit    
             id:user2
+            size_hint_y:.4
+        LogUI:            
+            id:logUI
+            padding:5
+            size_hint_y:.25
+
+
 
 <PointUnit>
 
@@ -30,11 +40,11 @@
             text:root.userName
             id:userName
             background_color:root.backColor
-            size_hint_x:.15
+            size_hint_x:.1
 
         BoxLayout:
             orientation:"vertical"
-            size_hint_x:.3
+            size_hint_x:.2
             # Part: Point
 
             BackgroundLabel:
@@ -77,32 +87,34 @@
                     BoxLayout:
                         # rule
                         orientation:'vertical'
-                        size_hint_y:.5
-
+                        size_hint_y:.3
+                        
                         Label:
                             text:"Rule"
                             text_size:self.size
                             halign: 'left'
+                            size_hint_y:.1
+                            # height:20
                             
                         Button:
                             id:dropdown_mainBtn
                             text:root.selectedRule
-                            height:26
-                            size_hint_y:None                    
+                            # height:20
+                            size_hint_y:.1
                             on_press:root.refresh_DropDownList()
                             on_release:dropdown.open(self)
-                            
-                        Widget:
-                            on_parent:dropdown.dismiss()
+                                
+                            Widget:
+                                on_parent:dropdown.dismiss()
 
-                        DropDown:
-                            id:dropdown
-                            on_select:root.handle_DropDownSelect()
+                            DropDown:
+                                id:dropdown
+                                on_select:root.handle_DropDownSelect()
                 
                     BoxLayout:                    
                         # factor & workminute
                         orientation:'horizontal'
-                        size_hint_y:.5
+                        size_hint_y:.4
 
                         BoxLayout:
                             # Factor 
@@ -142,15 +154,18 @@
                     BoxLayout:
                         # costPart
                         orientation:"vertical"
+                        size_hint_y:.6
+
                         Label:            
                             text:"Cost"
                             text_size:self.size
                             halign: 'left'
+                            size_hint_y:.2
 
                         BoxLayout:                    
                         # Cost
                             orientation:'horizontal'
-                            # size_hint_y:.5
+                            size_hint_y:.4
 
                             BoxLayout:
                                 # CostAmount 
@@ -191,7 +206,7 @@
         BoxLayout:
             # Part:Button
             orientation:"vertical"
-            size_hint_x:.2
+            size_hint_x:.12
             padding:8
                 
             Button:

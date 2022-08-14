@@ -32,5 +32,28 @@ class FileWriter:
         return result
 
 
+class LogLoader:
+    LOG_DATA_NAME = "\\Log\\NSP_Report"
+    readLineAmount = 0
+
+    def __init__(self, readLineAmount=15):
+        self.readLineAmount = readLineAmount
+
+    def GetLogData(self):
+        file = open(os.path.abspath(__file__ + "..\\..\\") + self.LOG_DATA_NAME, 'r')
+
+        count = 0
+        data = []
+        for line in file.readlines():
+            if count < self.readLineAmount:
+                line = line.strip()
+                data.append(line)
+            else:
+                break
+
+        return data
+
+
 if __name__ == '__main__':
-    print(FileWriter().GetUserData("W"))
+    # print(FileWriter().GetUserData("W"))
+    LogLoader()

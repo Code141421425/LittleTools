@@ -14,8 +14,8 @@ class NSPointer:
         self.addPointDict = addPointDict
         self.subPointDict = subPointDict
         self.writer = FileWriter()
-        self.logger = MyLogger().logger
         self.app = app
+        self.logger = MyLogger(self.app).logger
 
         # 当前写死用户就是W和R
         self.userList.append(User("W"))
@@ -38,6 +38,7 @@ class NSPointer:
     def AddPoint(self, userName, amount):
         for user in self.userList:
             if user.userName == userName:
+                amount = round(amount, 3)
                 user.AddPoint(amount)
                 # 保存结果
                 self.writer.SavePoint(user)
@@ -47,7 +48,7 @@ class NSPointer:
 
     def CostPoint(self, userName, case, amount):
         # 计算减少的数值
-        amount = float(amount)
+        amount = round(float(amount), 3)
 
         for user in self.userList:
             if user.userName == userName:

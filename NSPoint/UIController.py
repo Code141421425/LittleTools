@@ -2,9 +2,12 @@ from kivy.config import Config
 from kivy.app import App
 from kivy.uix.button import Button
 from kivy.uix.boxlayout import BoxLayout
-from kivy.properties import StringProperty,ListProperty
+from kivy.properties import StringProperty, ListProperty
+from kivy.lang import Builder
 from NSPoniter import NSPointer
 from Rule import PointRule
+
+from LogUI import LogUI
 
 
 class UIController(BoxLayout):
@@ -22,7 +25,7 @@ class UIController(BoxLayout):
         # 【修改】 需要改成从
         user = self.nsPoint.GetUserData(userName)
         if userName == 'W':
-            self.ids.user1.UnitInit(user, [.3, .6, .6, 1])
+            self.ids.user1.UnitInit(user, [.6, .3, .3, 1])
         elif userName == 'R':
             self.ids.user2.UnitInit(user, [.3, .3, .6, 1])
 
@@ -74,14 +77,12 @@ class PointUnit(BoxLayout):
 
     def handle_DropDownSelect(self):
         # 处理选择下拉框内容之后
-        print(self.ids.dropdown_mainBtn.text)
         self.selectedRule = self.ids.dropdown_mainBtn.text
         # 刷新数据
         self.__refreshFactor()
 
     def __refreshFactor(self):
         self.factor = str(PointRule[self.selectedRule])
-        print(self.factor)
 
 
 class NSP(App):
@@ -109,13 +110,12 @@ class NSP(App):
     def RawDataToCost(self, root):
         self.nsPointer.CostPoint(root.userName, root.ids.case_input.text, root.ids.costAmount_input.text)
 
-
-    def test(self, root):
-        self.AddPoint("1.2", root.userName)
+    def AddLog(self, msg):
+        self.UIController.ids.logUI.AddLog(msg)
 
 
 if __name__ == '__main__':
     Config.set('graphics', 'width', '650')
-    Config.set('graphics', 'height', '500')
+    Config.set('graphics', 'height', '550')
 
     NSP().run()
