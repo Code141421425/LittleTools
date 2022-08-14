@@ -17,6 +17,7 @@ class NSPointer:
         self.logger = MyLogger().logger
         self.app = app
 
+        # 当前写死用户就是W和R
         self.userList.append(User("W"))
         self.userList.append(User("R"))
 
@@ -32,16 +33,29 @@ class NSPointer:
         self.AddPoint(userName, result)
 
         # 打印log
-        self.logger.info(msg="%s get %.2f Pt(%s,%s) by %s done" % (userName, result,ruleFactor, minute ,ruleName))
-
+        self.logger.info(msg="%s get %.2f Pt(%s,%s) by %s done" % (userName, result, ruleFactor, minute, ruleName))
 
     def AddPoint(self, userName, amount):
         for user in self.userList:
             if user.userName == userName:
                 user.AddPoint(amount)
                 # 保存结果
-                self.writer.SavePoint(user.userName, user.point)
+                self.writer.SavePoint(user)
                 break
+        # 同步界面
+        self.__syncToUI()
+
+    def CostPoint(self, userName, case, amount):
+        # 计算减少的数值
+        amount = float(amount)
+
+        for user in self.userList:
+            if user.userName == userName:
+                user.CostPoint(amount)
+                # 保存结果
+                self.writer.SavePoint(user)
+                break
+        self.logger.info(msg="%s cost %.2f Pt by %s" % (userName, amount, case))
         # 同步界面
         self.__syncToUI()
 
@@ -50,7 +64,8 @@ class NSPointer:
         data = {}
         for user in self.userList:
             data[user.userName] = {
-                "point": user.point
+                "point": user.point,
+                "totalPoint": user.totalPoint
             }
         # 同步到界面上
         self.app.RefreshUIData(data)

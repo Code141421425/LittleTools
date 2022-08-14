@@ -10,11 +10,15 @@ class User:
         data = FileWriter().GetUserData(userName)
         self.userName = userName
         self.point = float(data["point"])
-        self.totalPoint = data["totalPoint"]
+        self.totalPoint = float(data["totalPoint"])
 
     def AddPoint(self, addAmount):
-        print(type(float(addAmount)))
         self.point += float(addAmount)
+        self.totalPoint += float(addAmount)
+
+    def CostPoint(self, costAmount):
+        # 区别在于，不会减历史总计的分数
+        self.point -= float(costAmount)
 
 
 def singleton(cls):

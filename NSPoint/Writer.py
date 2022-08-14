@@ -14,8 +14,9 @@ class FileWriter:
         self.conf = configparser.RawConfigParser()
         self.conf.read(self.rootPath + self.SAVED_DATA_NAME, encoding="utf-8")
 
-    def SavePoint(self, userName, point):
-        self.conf.set(userName, "point", point)
+    def SavePoint(self, user):
+        self.conf.set(user.userName, "point", user.point)
+        self.conf.set(user.userName, "totalPoint", user.totalPoint)
         self.conf.write(open(self.rootPath + self.SAVED_DATA_NAME, "w", encoding="utf-8"))
         print("Data Saved")
 

@@ -22,22 +22,24 @@ class UIController(BoxLayout):
         # 【修改】 需要改成从
         user = self.nsPoint.GetUserData(userName)
         if userName == 'W':
-            self.ids.user1.UnitInit(user.userName, user.point, [.6, .6, .6, 1])
+            self.ids.user1.UnitInit(user, [.3, .6, .6, 1])
         elif userName == 'R':
-            self.ids.user2.UnitInit(user.userName, user.point, [.4, .4, .4, 1])
+            self.ids.user2.UnitInit(user, [.3, .3, .6, 1])
 
     def RefreshData(self, dataList):
         # 刷新显示的Point数据
+        print(dataList)
         for data in dataList:
             if data == "W":
-                self.ids.user1.SetData(dataList[data]["point"])
+                self.ids.user1.SetData(dataList[data]["point"], dataList[data]["totalPoint"])
             elif data == "R":
-                self.ids.user2.SetData(dataList[data]["point"])
+                self.ids.user2.SetData(dataList[data]["point"], dataList[data]["totalPoint"])
 
 
 class PointUnit(BoxLayout):
     userName = StringProperty()
     point = StringProperty()
+    totalPoint = StringProperty()
     factor = StringProperty()
     workMinute = StringProperty()
     backColor = ListProperty()
@@ -49,14 +51,15 @@ class PointUnit(BoxLayout):
         # 初始化得分单元
         self.userName = str(userName)
 
-    def UnitInit(self, userName, point, backcolor=[1, 1, 1, 1]):
-        self.userName = userName
-        self.SetData(point)
+    def UnitInit(self, user, backcolor=[1, 1, 1, 1]):
+        self.userName = user.userName
+        self.SetData(user.point, user.totalPoint)
         self.backColor = backcolor
 
-    def SetData(self, point):
+    def SetData(self, point, totalPoint):
         # 设置Point显示的值
         self.point = "%.2f Pt" % (float(point))
+        self.totalPoint = "%.2f Pt" % (float(totalPoint))
 
     def generate_DropDownList(self):
         for rule in PointRule:
@@ -103,12 +106,16 @@ class NSP(App):
                                             root.ids.mintue_input.text,
                                             root.selectedRule)
 
+    def RawDataToCost(self, root):
+        self.nsPointer.CostPoint(root.userName, root.ids.case_input.text, root.ids.costAmount_input.text)
+
+
     def test(self, root):
         self.AddPoint("1.2", root.userName)
 
 
 if __name__ == '__main__':
     Config.set('graphics', 'width', '650')
-    Config.set('graphics', 'height', '400')
+    Config.set('graphics', 'height', '500')
 
     NSP().run()

@@ -30,87 +30,178 @@
             text:root.userName
             id:userName
             background_color:root.backColor
-            size_hint_x:.2
+            size_hint_x:.15
 
-        Label:
-            # Point Label
-            text:root.point
-            id:point
+        BoxLayout:
+            orientation:"vertical"
             size_hint_x:.3
+            # Part: Point
+
+            BackgroundLabel:
+                text:"Hold Point"
+                background_color:root.backColor
+                size_hint_y:.15
+
+            Label:
+                text:root.point
+                size_hint_y:.85
+                id:point           
+
+            BackgroundLabel:
+                text:"Grand Total Point"                
+                background_color:(.2,.2,.2,1)
+                size_hint_y:.15
+
+            Label:
+                text:root.totalPoint
+                size_hint_y:.15
+                id:point           
+
 
 
         BoxLayout:
-            # Part：Rule 
+            # Part：Rule & Cost
             # Right Section
             orientation:'vertical'
             size_hint_x:.5
+            padding:5
 
             BoxLayout:
-                orientation:'vertical'
-                size_hint_y:.5
-
-                Label:
-                    text:"Rule"
-                    text_size:self.size
-                    halign: 'left'
-                    
-                Button:
-                    id:dropdown_mainBtn
-                    text:root.selectedRule
-                    height:26
-                    size_hint_y:None                    
-                    on_press:root.refresh_DropDownList()
-                    on_release:dropdown.open(self)
-                    
-                Widget:
-                    on_parent:dropdown.dismiss()
-
-                DropDown:
-                    id:dropdown
-                    on_select:root.handle_DropDownSelect()
-        
-            BoxLayout:
+                # Rule part & button
                 orientation:'horizontal'
-                size_hint_y:.5
 
                 BoxLayout:
-                    # Part:Factor 
-                    orientation:'vertical'
-                    size_hint_x:.2
-                    padding:3
+                    # Rule & Cost
+                    orientation:"vertical"
 
-                    Label:
-                        text:"Factor"
-                        text_size:self.size
-                        halign: 'left'
-                    
-                    TextInput:
-                        text:root.factor
-                        id:factor_input
-                        multiline:False
-                        height:32
+                    BoxLayout:
+                        # rule
+                        orientation:'vertical'
+                        size_hint_y:.5
 
-                BoxLayout:
-                    # Part:WorkMinute 
-                    orientation:'vertical'
-                    size_hint_x:.2
-                    padding:3
+                        Label:
+                            text:"Rule"
+                            text_size:self.size
+                            halign: 'left'
+                            
+                        Button:
+                            id:dropdown_mainBtn
+                            text:root.selectedRule
+                            height:26
+                            size_hint_y:None                    
+                            on_press:root.refresh_DropDownList()
+                            on_release:dropdown.open(self)
+                            
+                        Widget:
+                            on_parent:dropdown.dismiss()
 
-                    Label:
-                        text:"WorkMinute"
-                        text_size:self.size
-                        halign: 'left'
-                    
-                    TextInput:
-                        text:root.workMinute
-                        id:mintue_input
-                        multiline:False
-                        height:32
-            
-        Button:
+                        DropDown:
+                            id:dropdown
+                            on_select:root.handle_DropDownSelect()
+                
+                    BoxLayout:                    
+                        # factor & workminute
+                        orientation:'horizontal'
+                        size_hint_y:.5
+
+                        BoxLayout:
+                            # Factor 
+                            orientation:'vertical'
+                            size_hint_x:.2
+                            padding:3
+
+                            Label:
+                                text:"Factor"
+                                text_size:self.size
+                                halign: 'left'
+                            
+                            TextInput:
+                                text:root.factor
+                                id:factor_input
+                                multiline:False
+                                height:32
+
+                        BoxLayout:
+                            # WorkMinute 
+                            orientation:'vertical'
+                            size_hint_x:.2
+                            padding:3
+
+                            Label:
+                                text:"WorkMinute"
+                                text_size:self.size
+                                halign: 'left'
+                            
+                            TextInput:
+                                text:root.workMinute
+                                id:mintue_input
+                                multiline:False
+                                height:32
+
+
+                    BoxLayout:
+                        # costPart
+                        orientation:"vertical"
+                        Label:            
+                            text:"Cost"
+                            text_size:self.size
+                            halign: 'left'
+
+                        BoxLayout:                    
+                        # Cost
+                            orientation:'horizontal'
+                            # size_hint_y:.5
+
+                            BoxLayout:
+                                # CostAmount 
+                                orientation:'vertical'
+                                size_hint_x:.3
+                                # size_hint_y:.7
+                                padding:3
+
+                                Label:
+                                    text:"CostAmount"
+                                    text_size:self.size
+                                    # size_hint_y:.4
+                                    halign: 'left'
+                                
+                                TextInput:
+                                    text:root.workMinute
+                                    id:costAmount_input
+                                    multiline:False
+                                    height:32
+
+                            BoxLayout:
+                                # Case 
+                                orientation:'vertical'
+                                # size_hint_y:.7
+                                padding:3
+
+                                Label:
+                                    text:"Case"
+                                    text_size:self.size                                    
+                                    halign: 'left'
+                                
+                                TextInput:
+                                    text:root.factor
+                                    id:case_input
+                                    multiline:False
+                                    height:32
+
+        BoxLayout:
+            # Part:Button
+            orientation:"vertical"
             size_hint_x:.2
-            size_hint_y:.5
-            text:"Add Pt" 
-            valign:"middle" 
-            size:self.size
-            on_release:app.RawDataToCalculate(root)              
+            padding:8
+                
+            Button:
+                text:"Add Pt" 
+                valign:"middle" 
+                size:self.size
+                on_release:app.RawDataToCalculate(root)             
+
+            Button:
+                text:"Cost Pt" 
+                valign:"middle" 
+                size:self.size
+                on_release:app.RawDataToCost(root)                     

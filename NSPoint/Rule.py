@@ -10,6 +10,7 @@ PointRule = {
     "Cook_buyEatery": 2,
     "Extra_DoneInWeek": 15,
     "Extra_DoneInWorkDays": 40,
+    "DentalFloss":2,
     "---------":0,
     "sleepLate_20": -2,
     "sleepLate_40": -5,
