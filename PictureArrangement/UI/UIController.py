@@ -60,6 +60,10 @@ class PA(App):
         self.FileMove.moveFile(file=self.UIController.ids.picShow.exceptPath,
                                targetPath=root.targetPath)
 
+    def on_button_AddNewPath(self, root):
+        # 添加到列表中
+        self.UIController.ids.targetPanel.AddNewPath(root.ids.input_key.text,
+                                                     root.ids.input_path.text)
 
 
 if __name__ == '__main__':

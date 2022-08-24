@@ -2,13 +2,13 @@
     orientation:"vertical"
 
     Label:
-        text:"2"
-        size_hint_y:.1
+        text:"Move Target Path"
+        size_hint_y:1
 
     RecycleView:
         data:root.data_for_loadConfigList
         viewclass:'RecycleViewUnit'
-        size_hint_y:.9
+        size_hint_y:9
         RecycleBoxLayout:
             default_size:None,dp(30)
             default_size_hint:1,None
@@ -16,6 +16,8 @@
             height:self.minimum_height
             orientation:"vertical"
             spacing:dp(2)
+
+    AddNewPath
 
 <RecycleViewUnit>
     BoxLayout:
@@ -27,3 +29,42 @@
             text:"Move File"
             size_hint_x:.3
             on_release:app.on_button_MoveFile(root)
+
+
+<AddNewPath>
+    BoxLayout:
+        orientation:'horizontal'
+
+    BoxLayout:
+        orientation:"vertical"
+        size_hint_x:9
+
+        BoxLayout:
+            orientation:"horizontal"
+            
+            Label:
+                text:"Key"
+                size_hint_x:2
+            TextInput:            
+                text:root.keyInputStr
+                size_hint_x:8
+                id:input_key
+        
+        BoxLayout:         
+            orientation:"horizontal"            
+
+            Label:
+                text:"Value"
+                size_hint_x:2
+            TextInput:
+                text:root.pathInputStr
+                id:input_path
+                size_hint_x:8
+
+
+
+
+    Button:
+        text:"+"
+        size_hint_x:1
+        on_release:app.on_button_AddNewPath(root)

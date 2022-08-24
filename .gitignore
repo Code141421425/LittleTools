@@ -6,3 +6,5 @@ ReFileName/.idea/
 NSPoint/__pycache__/
 NSPoint/.idea/
 ReFileName/__pycache__/
+PictureArrangement/.idea/
+*.pyc
