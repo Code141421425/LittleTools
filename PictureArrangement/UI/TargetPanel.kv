@@ -1,0 +1,29 @@
+<TargetPanel>
+    orientation:"vertical"
+
+    Label:
+        text:"2"
+        size_hint_y:.1
+
+    RecycleView:
+        data:root.data_for_loadConfigList
+        viewclass:'RecycleViewUnit'
+        size_hint_y:.9
+        RecycleBoxLayout:
+            default_size:None,dp(30)
+            default_size_hint:1,None
+            size_hint_y:None
+            height:self.minimum_height
+            orientation:"vertical"
+            spacing:dp(2)
+
+<RecycleViewUnit>
+    BoxLayout:
+        Label:
+            text:root.posTitle
+            size_hint_x:.7
+
+        Button:
+            text:"Move File"
+            size_hint_x:.3
+            on_release:app.on_button_MoveFile(root)
