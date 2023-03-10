@@ -84,6 +84,9 @@ class PointUnit(BoxLayout):
     def __refreshFactor(self):
         self.factor = str(PointRule[self.selectedRule])
 
+    def WorkTime_To(self, amount):
+        self.ids.mintue_input.text = str(amount)
+
 
 class NSP(App):
     nsPointer = None

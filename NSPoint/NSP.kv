@@ -143,12 +143,28 @@
                                 text:"WorkMinute"
                                 text_size:self.size
                                 halign: 'left'
-                            
-                            TextInput:
-                                text:root.workMinute
-                                id:mintue_input
-                                multiline:False
-                                height:32
+
+                            BoxLayout:
+                            # WorkMinute 
+                                orientation:'horizontal'                
+
+                                TextInput:
+                                    size_hint_x:.6
+                                    text:root.workMinute
+                                    id:mintue_input
+                                    multiline:False
+                                    height:32
+
+                                Button:
+                                    size_hint_x:.2
+                                    text:"30"
+                                    on_release:root.WorkTime_To(30)
+
+                                Button:
+                                    size_hint_x:.2
+                                    text:"60"
+                                    on_release:root.WorkTime_To(60)
+
 
 
                     BoxLayout:
