@@ -1,0 +1,67 @@
+<BackgroundColor@Widget>
+    background_color: 1, 1, 0, 0.5
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<BackgroundLabel@Label+BackgroundColor>
+    background_color: 0.3, 0.5, 0.5, 1
+
+
+<Calendar>
+    orientation:"horizontal"
+
+    Button:
+        size_hint_x:.1
+        background_color:0,0,0,0
+        text:"<"
+
+    Month
+        id:month_Zone
+
+    Button:
+        size_hint_x:.1
+        background_color:0,0,0,0
+        text:">"
+
+<Day>
+    height:20
+    width:20
+    text:root.date
+    background_color:root.nowColor
+
+    on_release:root.ChangeAccompanyState()
+
+<Week>
+    orientation:"horizontal"
+    # size_hint_x:None
+    # size_hint_y:None
+    padding:1
+
+<Month>
+    orientation:'vertical'
+    height:200
+    width:200
+
+    BackgroundLabel:
+        # mounth                
+        text:root.monthText
+        size_hint_y:.2
+
+    BoxLayout:
+        # weekTitle
+        orientation:"horizontal"
+        size_hint_y:.2
+        id:week_title
+
+    GridLayout:
+        id:monthZone
+        cols:7
+        raws:5
+        
+
+<MouthZone>
+    orientation:'vertical'        
