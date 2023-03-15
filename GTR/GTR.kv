@@ -1,0 +1,41 @@
+<UIController>
+    orientation:"vertical"
+
+    BoxLayout:
+        orientation:"horizontal"
+        size_hint_y:.3
+        padding:8
+
+        Label:
+            text:"Max Game Time"
+        
+        Label:
+            text:"4:0:0"
+
+    BoxLayout:
+        orientation:"horizontal"
+        size_hint_y:.7
+        
+        Label:
+            id:time_text
+            size_hint_x:.6
+
+            text:app.passTime
+            font_size:32
+        
+        BoxLayout:
+            orientation:"vertical"
+            size_hint_x:.35
+        
+            Button:
+                text:"Start"
+                on_release:app.TimeStart()
+
+            Button:
+                text:"Pause"
+                on_release:app.TimePause()
+
+        Button:
+            size_hint_x:.2
+            text:"Reset"
+            on_release:app.TimeReSet()
