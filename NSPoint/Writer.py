@@ -20,6 +20,16 @@ class FileWriter:
         self.conf.write(open(self.rootPath + self.SAVED_DATA_NAME, "w", encoding="utf-8"))
         print("Data Saved")
 
+    def SetPTExecutedTimes(self, user):
+        self.conf.set(user.userName, "executedTime", user.executedTime)
+        self.conf.write(open(self.rootPath + self.SAVED_DATA_NAME, "w", encoding="utf-8"))
+        print("Data Saved")
+
+    def SetNowPt(self, user):
+        self.conf.set(user.userName, "nowPT", user.nowPT)
+        self.conf.write(open(self.rootPath + self.SAVED_DATA_NAME, "w", encoding="utf-8"))
+        print("Data Saved")
+
     def LoadPoint(self):
         pass
 
@@ -28,6 +38,8 @@ class FileWriter:
         result["userName"] = userName
         result["point"] = self.conf.get(userName, "point")
         result["totalPoint"] = self.conf.get(userName, "totalPoint")
+        result["nowPT"] = self.conf.get(userName, "nowPT")
+        result["executedTime"] = self.conf.get(userName, "executedTime")
 
         return result
 

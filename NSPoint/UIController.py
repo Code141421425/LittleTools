@@ -8,6 +8,7 @@ from NSPoniter import NSPointer
 from Rule import PointRule
 
 from LogUI import LogUI
+from PT import PT
 
 
 class UIController(BoxLayout):
@@ -35,8 +36,10 @@ class UIController(BoxLayout):
         for data in dataList:
             if data == "W":
                 self.ids.user1.SetData(dataList[data]["point"], dataList[data]["totalPoint"])
+                self.ids.user1.ids.pt.SetPT(dataList[data]["nowPT"], dataList[data]["executedTime"])
             elif data == "R":
                 self.ids.user2.SetData(dataList[data]["point"], dataList[data]["totalPoint"])
+                self.ids.user2.ids.pt.SetPT(dataList[data]["nowPT"], dataList[data]["executedTime"])
 
 
 class PointUnit(BoxLayout):
@@ -47,6 +50,7 @@ class PointUnit(BoxLayout):
     workMinute = StringProperty()
     backColor = ListProperty()
     selectedRule = ""
+    pt = None
 
     def __init__(self, userName="", *args, **kwargs):
         super(PointUnit, self).__init__(*args, **kwargs)
@@ -58,6 +62,8 @@ class PointUnit(BoxLayout):
         self.userName = user.userName
         self.SetData(user.point, user.totalPoint)
         self.backColor = backcolor
+        self.pt = self.ids.pt
+        self.pt.PtInit(user)
 
     def SetData(self, point, totalPoint):
         # 设置Point显示的值
@@ -116,9 +122,18 @@ class NSP(App):
     def AddLog(self, msg):
         self.UIController.ids.logUI.AddLog(msg)
 
+    def Handle_Add_PT(self, root):
+        self.nsPointer.AddPT(root.userName, root.ids.input_pt_value.text)
+
+    def Handle_Reduce_PT(self, root):
+        self.nsPointer.ReducePT(root.userName, root.ids.input_pt_value.text)
+
+    def Handle_Execute(self, root):
+        self.nsPointer.ExeCutePT(root.userName)
+
 
 if __name__ == '__main__':
     Config.set('graphics', 'width', '650')
-    Config.set('graphics', 'height', '550')
+    Config.set('graphics', 'height', '700')
 
     NSP().run()

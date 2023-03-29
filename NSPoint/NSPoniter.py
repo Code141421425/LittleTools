@@ -49,16 +49,45 @@ class NSPointer:
     def CostPoint(self, userName, case, amount):
         # 计算减少的数值
         amount = round(float(amount), 3)
-
-        for user in self.userList:
-            if user.userName == userName:
-                user.CostPoint(amount)
-                # 保存结果
-                self.writer.SavePoint(user)
-                break
+        user = self.__GetUser(userName)
+        user.CostPoint(amount)
+        # 保存结果
+        self.writer.SavePoint(user)
         self.logger.info(msg="%s cost %.2f Pt by %s" % (userName, amount, case))
         # 同步界面
         self.__syncToUI()
+
+    def AddPT(self, userName, amount):
+        amount = int(amount)
+
+        user = self.__GetUser(userName)
+        user.AddPT(amount)
+        self.writer.SetNowPt(user)
+        self.logger.info(msg="%s's PunishTime increase %d min" % (userName, amount))
+        self.__syncToUI()
+
+    def ReducePT(self, userName, amount):
+        amount = int(amount)
+
+        user = self.__GetUser(userName)
+        user.ReducePT(amount)
+        self.writer.SetNowPt(user)
+        self.logger.info(msg="%s's PunishTime Reduce %d min" % (userName, amount))
+        self.__syncToUI()
+
+    def ExeCutePT(self, userName):
+        user = self.__GetUser(userName)
+        user.ReSetPT()
+        self.writer.SetNowPt(user)
+        self.writer.SetPTExecutedTimes(user)
+        self.logger.info(msg="Punish Executed,%s's PT to 0, Be careful for next time" % userName)
+        self.__syncToUI()
+
+    def __GetUser(self, userName):
+        for user in self.userList:
+            if user.userName == userName:
+                return user
+        return None
 
     def __syncToUI(self):
         # 进行一波UI通信时，所需要的数据格式的组装
@@ -66,7 +95,9 @@ class NSPointer:
         for user in self.userList:
             data[user.userName] = {
                 "point": user.point,
-                "totalPoint": user.totalPoint
+                "totalPoint": user.totalPoint,
+                "nowPT": user.nowPT,
+                "executedTime": user.executedTime
             }
         # 同步到界面上
         self.app.RefreshUIData(data)
