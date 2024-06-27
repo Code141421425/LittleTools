@@ -1,0 +1,72 @@
+<PT>
+    BoxLayout:
+        orientation:"vertical"
+
+        Label:
+            # title
+            text:"PT"
+            size_hint_y:0.3
+            halign: 'left'
+            text_size:self.size
+
+
+        BoxLayout:
+            # content
+            orientation:"horizontal"
+            size_hint_y:0.7
+
+            BoxLayout:
+                # PT times
+                orientation:"vertical"
+                size_hint_x:.25
+
+                Label:
+                    text:"Executed \n Times"
+                    font_size:12
+
+                Label:
+                    text:root.executedTime
+
+            BoxLayout:
+                # Now PT
+                orientation:"vertical"
+                size_hint_x:0.25
+
+                Label:
+                    text:"Now PT"
+
+                Label:
+                    text:root.nowPT
+
+            BoxLayout:
+                orientation:"vertical"
+                size_hint_x:.5
+
+                Label:
+                    text:"Add OR Reduce PT"
+                    font_size:16
+
+                BoxLayout:
+
+                    orientation:'horizontal'
+
+                    TextInput:
+                        id:input_pt_value
+                        size_hint_x:.5
+                        text:""
+
+
+                    Button:
+                        size_hint_x:.25
+                        text:"+"
+                        on_release:app.Handle_Add_PT(root)
+
+                    Button:
+                        size_hint_x:.25
+                        text:"-"
+                        on_release:app.Handle_Reduce_PT(root)
+            Button:
+                size_hint_x:.2
+                text:"Execute"
+                font_size:14
+                on_release:app.Handle_Execute(root)

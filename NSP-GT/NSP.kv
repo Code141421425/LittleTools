@@ -1,0 +1,307 @@
+#:include LogUI.kv
+#:include PT.kv
+
+<BackgroundColor@Widget>
+    background_color: 1, 1, 0, 0.5
+    canvas.before:
+        Color:
+            rgba: root.background_color
+        Rectangle:
+            size: self.size
+            pos: self.pos
+
+<BackgroundLabel@Label+BackgroundColor>
+    background_color: 0.3, 0.6, 0.6, 1
+
+<UIController>
+    BoxLayout:
+        orientation:'vertical'
+        padding:8
+
+        PointUnit
+            id:user1
+            size_hint_y:.4
+        # PointUnit    
+        #     id:user2
+        #     size_hint_y:.4
+        LogUI:            
+            id:logUI
+            padding:5
+            size_hint_y:.25
+
+
+
+<PointUnit>
+    __safe_id: [dropdownAdd.__self__]
+    __safe_id2: [dropdownCost.__self__]
+
+
+    BoxLayout:
+        orientation:'horizontal'
+        BackgroundLabel:
+            text:root.userName
+            id:userName
+            background_color:root.backColor
+            size_hint_x:.1
+
+        BoxLayout:
+            orientation:"vertical"
+            size_hint_x:.2
+            # Part: Point
+
+            BackgroundLabel:
+                text:"Hold Time"
+                background_color:root.backColor
+                size_hint_y:.15
+
+            Label:
+                text:root.point
+                size_hint_y:.85
+                id:point           
+
+            BackgroundLabel:
+                text:"Today Summary "                
+                background_color:(.2,.2,.2,1)
+                size_hint_y:.15
+
+            Label:
+                text:root.todayPoint
+                size_hint_y:.15
+                id:point           
+
+
+
+        BoxLayout:
+            # Part：Rule & Cost & PT 
+            # Right Section
+            orientation:'vertical'
+            size_hint_x:.5
+            padding:5
+
+            # Rule part & button
+            BoxLayout:
+                orientation:'horizontal'
+                size_hint_y:0.7
+
+                BoxLayout:
+                    # Rule & Cost
+                    orientation:"vertical"
+
+                    # rule
+                    BoxLayout:
+                        orientation:'vertical'
+                        size_hint_y:.5
+                        
+                        Label:
+                            text:"Add Choice"
+                            text_size:self.size
+                            halign: 'left'
+                            size_hint_y:.1
+                            # height:20
+                            
+                        Button:
+                            id:dropdown_mainBtn
+                            text:root.selectedRule
+                            # height:20
+                            size_hint_y:.1
+                            on_press:root.refresh_DropDownList()
+                            on_release:dropdownAdd.open(self)
+                                
+                            Widget:
+                                on_parent:dropdownAdd.dismiss()
+
+                            DropDown:
+                                id:dropdownAdd
+                                on_select:root.handle_DropDownSelect()
+                
+                    
+                    # factor & workminute
+                    BoxLayout:                    
+                        orientation:'horizontal'
+                        size_hint_y:.5
+
+                        # BoxLayout:
+                        #     # Factor 
+                        #     orientation:'vertical'
+                        #     size_hint_x:.2
+                        #     padding:3
+
+                        #     Label:
+                        #         text:"Factor"
+                        #         text_size:self.size
+                        #         halign: 'left'
+                            
+                        #     TextInput:
+                        #         text:root.factor
+                        #         id:factor_input
+                        #         multiline:False
+                        #         height:32
+
+                        # WorkCase
+                        BoxLayout:
+                            orientation:'vertical'       
+                            size_hint_x:.2
+                            padding:3
+                            
+                            Label:
+                                text:"Case"
+                                text_size:self.size
+                                halign: 'left'         
+
+                            TextInput:                                
+                                text:root.factor
+                                id:addChoice_input
+                                multiline:False
+                                height:32
+
+
+                        # AddMinute 
+                        BoxLayout:
+                            orientation:'vertical'
+                            size_hint_x:.2
+                            padding:3
+
+                            Label:
+                                text:"AddMinute"
+                                text_size:self.size
+                                halign: 'left'
+
+
+
+                            # 30&60
+                            BoxLayout:
+                                orientation:'horizontal'                
+
+                                TextInput:
+                                    size_hint_x:.6
+                                    text:root.workMinute
+                                    id:mintue_input
+                                    multiline:False
+                                    height:32
+
+                                Button:
+                                    size_hint_x:.2
+                                    text:"30"
+                                    on_release:root.WorkTime_To(30)
+
+                                Button:
+                                    size_hint_x:.2
+                                    text:"60"
+                                    on_release:root.WorkTime_To(60)
+
+
+
+                    # costPart
+                    BoxLayout:
+                        orientation:"vertical"
+                        size_hint_y:.5
+
+                    # Cost Choice DropBtn
+                    BoxLayout:
+                        orientation:"vertical"
+                        size_hint_y:1
+
+                        # CostDropBtn
+                        BoxLayout:
+                            orientation:'vertical'
+                            size_hint_y:.5
+                            
+                            Label:
+                                text:"Cost Choice"
+                                text_size:self.size
+                                halign: 'left'
+                                size_hint_y:.5
+                                # height:20
+                                
+                            Button:
+                                id:dropdown_CostBtn
+                                text:root.costRule
+                                # height:20
+                                size_hint_y:.5
+                                on_press:root.refresh_DropDownCostList()
+                                on_release:dropdownCost.open(self)
+                                    
+                                Widget:
+                                    on_parent:dropdownCost.dismiss()
+
+                                DropDown:
+                                    id:dropdownCost
+                                    on_select:root.handle_CostDropDownSelect()
+
+                            # Label:            
+                            #     text:"Cost"
+                            #     text_size:self.size
+                            #     halign: 'left'
+                            #     size_hint_y:.5
+                        BoxLayout:                    
+                            # Cost
+                            orientation:'horizontal'
+                            size_hint_y:.5
+                           
+                            BoxLayout:
+                                # Case 
+                                orientation:'vertical'
+                                size_hint_x:.65
+                                padding:3
+
+                                Label:
+                                    text:"Case"
+                                    text_size:self.size                                    
+                                    halign: 'left'
+                                
+                                TextInput:
+                                    text:root.costCaseText
+                                    id:case_input
+                                    multiline:False
+                                    height:32
+
+                            BoxLayout:
+                                # CostAmount 
+                                orientation:'vertical'
+                                size_hint_x:.35
+                                # size_hint_y:.7
+                                padding:3
+
+                                Label:
+                                    text:"CostAmount"
+                                    text_size:self.size
+                                    halign: 'left'
+                                    font_size:12
+                                
+                                TextInput:
+                                    text:root.workMinute
+                                    id:costAmount_input
+                                    multiline:False
+                                    height:32
+
+
+                    # PT:
+                    #     id:pt
+                    #     size_hint_y:0.6
+
+        
+        BoxLayout:
+            # Part:Button
+            orientation:"vertical"
+            size_hint_x:.12
+            padding:8
+                
+            Button:
+                text:"Add Min" 
+                valign:"middle" 
+                size:self.size
+                on_release:app.RawDataToCalculate(root)             
+
+            Button:
+                text:"Cost Min" 
+                valign:"middle" 
+                size:self.size
+                on_release:app.RawDataToCost(root)                     
+
+
+#        BoxLayout:
+#           size_hint_x:.3
+#
+#            TimeRecord:
+#                id:tr
+#               size_hint_y:0.6

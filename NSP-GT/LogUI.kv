@@ -1,0 +1,17 @@
+
+<LogUI>
+    BoxLayout:
+        orientation:"vertical"
+
+        BackgroundLabel:
+            text:"Log"        
+            size_hint_y:.2
+            background_color:(.2,.2,.3,1)
+
+        CodeInput:
+            id:logShow
+            padding:2
+            size_hint_y:.8
+            font_size:12
+            text:root.logData
+            readonly:True
