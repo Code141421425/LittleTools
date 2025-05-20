@@ -31,17 +31,20 @@ class NSPointer:
 
     def CalculateAndAddPoint(self, userName,  minute, ruleFactor="60", ruleName=None):
         result = round((float(ruleFactor)/60) * float(minute), 3)
-        self.AddPoint(userName, result)
+        self.AddPoint(userName, minute, result, isWork=self.__CheckIsWork(ruleName))
 
         # 打印log
         self.logger.info(msg="%s get %.2f min ET by %s done" % (userName, result, ruleName))
 
-    def AddPoint(self, userName, amount):
+    def AddPoint(self, userName, useMinute, amount, isWork=False):
 
         for user in self.userList:
             if user.userName == userName:
                 amount = round(amount, 3)
-                user.AddPoint(amount, isToday=self.__CheckToday(user))
+                user.AddPoint(amount, useMinute,
+                              isWork=isWork,
+                              isToday=self.__CheckToday(user),
+                              logger=self.logger)
                 # 保存结果
                 self.writer.SavePoint(user)
                 break
@@ -51,11 +54,10 @@ class NSPointer:
     def CostPoint(self, userName, case, amount):
         # 计算减少的数值
 
-
         amount = round(float(amount), 3)
         user = self.__GetUser(userName)
         # self.__CheckToday()
-        user.CostPoint(amount)
+        user.CostPoint(amount, amount, isToday=self.__CheckToday(user), logger=self.logger)
         # 保存结果
         self.writer.SavePoint(user)
         self.logger.info(msg="%s cost %.2f min ET by %s" % (userName, amount, case))
@@ -88,11 +90,27 @@ class NSPointer:
         self.logger.info(msg="Punish Executed,%s's PT to 0, Be careful for next time" % userName)
         self.__syncToUI()
 
+    def setOfferHours(self, userName, hourTxt):
+        for user in self.userList:
+            if user.userName == userName:
+                user.todayOfferHours = int(hourTxt)
+            self.writer.SavePoint(user)
+
+        self.__syncToUI()
+
+
     def __CheckToday(self, user):
         if time.localtime(time.time())[2] == time.localtime(user.logTimeStamp)[2]:
             return True
         else:
             return False
+
+    def __CheckIsWork(self, ruleName):
+        print(ruleName)
+        print(ruleName[0:4])
+        if ruleName[0:4] == "Work":
+            print("yes")
+            return True
 
 
     def __GetUser(self, userName):
@@ -110,10 +128,14 @@ class NSPointer:
                 "totalPoint": user.totalPoint,
                 "nowPT": user.nowPT,
                 "executedTime": user.executedTime,
-                "todayPoint":user.todayPoint
+                "todayPoint": user.todayPoint,
+                "todayLogPercent": user.todayLogPercent,
+                "todayLogWorkMinute": user.todayLogWorkMinute,
+                "todayOfferHours": user.todayOfferHours,
             }
         # 同步到界面上
         self.app.RefreshUIData(data)
+
 
 if __name__ == "__main__":
     NSPointer()

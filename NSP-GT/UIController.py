@@ -38,7 +38,11 @@ class UIController(BoxLayout):
             if data == "W":
                 self.ids.user1.SetData(dataList[data]["point"],
                                        dataList[data]["totalPoint"],
-                                       dataList[data]["todayPoint"])
+                                       dataList[data]["todayPoint"],
+                                       dataList[data]["todayLogPercent"],
+                                       todayWorkMinute=dataList[data]["todayLogWorkMinute"],
+                                       todayOfferHours=dataList[data]["todayOfferHours"],
+                                       )
                 # self.ids.user1.ids.pt.SetPT(dataList[data]["nowPT"], dataList[data]["executedTime"])
             # elif data == "R":
             #     self.ids.user2.SetData(dataList[data]["point"], dataList[data]["totalPoint"])
@@ -50,13 +54,18 @@ class PointUnit(BoxLayout):
     point = StringProperty()
     totalPoint = StringProperty()
     logTimeStamp = StringProperty()
-    todayPoint = StringProperty()
     factor = StringProperty()
     costCaseText = StringProperty()
+    offerHours = StringProperty()
     workMinute = StringProperty()
     backColor = ListProperty()
     selectedRule = ""
     costRule = ""
+
+    todayPoint = StringProperty()
+    todayLogPercent = StringProperty()
+    todayOfferHours = StringProperty()
+    todayWorkHours = StringProperty()
     pt = None
 
     def __init__(self, userName="", *args, **kwargs):
@@ -67,16 +76,23 @@ class PointUnit(BoxLayout):
 
     def UnitInit(self, user, backcolor=[1, 1, 1, 1]):
         self.userName = user.userName
-        self.SetData(user.point, user.totalPoint, user.todayPoint)
+        self.SetData(user.point, user.totalPoint, user.todayPoint,
+                     user.todayLogPercent,
+                     todayOfferHours=user.todayOfferHours,
+                     todayWorkMinute=user.todayLogWorkMinute
+                     )
         self.backColor = backcolor
         # self.pt = self.ids.pt
         # self.pt.PtInit(user)
 
-    def SetData(self, point, totalPoint, todayPoint):
+    def SetData(self, point, totalPoint, todayPoint, todayLogPercent, todayOfferHours, todayWorkMinute):
         # 设置Point显示的值
         self.point = "%.2f Min" % (float(point))
         # self.totalPoint = "%.2f Min" % (float(totalPoint))
         self.todayPoint = "%.2f Min" % (float(todayPoint))
+        self.todayLogPercent = "%.2f" % (float(todayLogPercent))
+        self.todayOfferHours = "%.f" % (float(todayOfferHours))
+        self.todayWorkHours = "%.1f" % (float(todayWorkMinute) / 60)
 
     def generate_DropDownList(self):
         for rule in PointRule:
@@ -125,6 +141,10 @@ class NSP(App):
     nsPointer = None
     UIController = None
 
+    def __init__(self, **kwargs):
+        super(NSP, self).__init__(**kwargs)
+        self.title = "NSP-GT"  # 设置应用名称
+
     def build(self):
         self.nsPointer = NSPointer(app=self)
         self.UIController = UIController(self.nsPointer)
@@ -158,10 +178,13 @@ class NSP(App):
     def Handle_Execute(self, root):
         self.nsPointer.ExeCutePT(root.userName)
 
+    def Handle_OfferHours(self, root):
+        self.nsPointer.setOfferHours(root.userName, root.ids.offerhours_input.text)
+
 
 if __name__ == '__main__':
     # Config.set('graphics', 'width', '850')
-    Config.set('graphics', 'width', '650')
-    Config.set('graphics', 'height', '500')
+    Config.set('graphics', 'width', '720')
+    Config.set('graphics', 'height', '600')
 
     NSP().run()
