@@ -57,10 +57,14 @@ class User:
     def __PassToday(self, useMinute, isToday, logger=None):
         if not isToday:
             self.logTimeStamp = time.time()
-            logger.info(msg="[Summary] %s get %.1f min,log %.1f %%,finished work %.1f %% Today" %
-                            (self.userName, self.todayPoint, self.todayLogPercent,
-                             self.todayLogWorkMinute*100/(self.todayOfferHours*60)
-                             ))
+
+            if self.todayOfferHours != 0:
+                offerFinishTxt = "finished "+self.todayLogWorkMinute * 100 / (self.todayOfferHours * 60)+"%% Today"
+            else:
+                offerFinishTxt = "and do not offer work Today"
+
+            logger.info(msg="[Summary] %s get %.1f min,log %.1f %%," %
+                            (self.userName, self.todayPoint, self.todayLogPercent)+offerFinishTxt)
             self.todayPoint = 0
             self.todayLogMinute = 0
             self.todayLogPercent = 0
