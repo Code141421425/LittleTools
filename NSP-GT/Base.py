@@ -59,7 +59,8 @@ class User:
             self.logTimeStamp = time.time()
 
             if self.todayOfferHours != 0:
-                offerFinishTxt = "finished "+self.todayLogWorkMinute * 100 / (self.todayOfferHours * 60)+"%% Today"
+                # 使用 f-string（Python 3.6+）
+                offerFinishTxt = f"finished {self.todayLogWorkMinute * 100 / (self.todayOfferHours * 60):.2f}% Today"
             else:
                 offerFinishTxt = "and do not offer work Today"
 
